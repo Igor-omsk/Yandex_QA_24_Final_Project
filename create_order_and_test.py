@@ -1,23 +1,9 @@
-# РРіРѕСЂСЊ РЎСѓС…Р°РЅРѕРІ, 24 РєРѕРіРѕСЂС‚Р°, Р¤РёРЅР°Р»СЊРЅС‹Р№ РїСЂРѕРµРєС‚. РРЅР¶РµРЅРµСЂ РїРѕ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЋ РїР»СЋСЃ
-import requests
-import configuration
-import data
+# Игорь Суханов, 24 когорта, Финальный проект. Инженер по тестированию плюс
+import sender_stand_request
 
-def post_new_order():
-    return requests.post(configuration.URL_SERVICE + configuration.CREATE_ORDER,
-           json=data.order_body)
-
-print(post_new_order())
-
-def get_order_info(track_number):
-    return requests.get(configuration.URL_SERVICE + configuration.GET_ORDER_INFO,
-           params={"t": track_number})
-
-def get_track_number():
-    track_number = post_new_order()
-    return track_number.json()["track"]
-
+# не совсем понял зачем разделять функции по разным файлам, проект мизерный можно все в одном файле сделать.
+# Но раз ревьюер хочет...
 def test_create_and_track_order():
-    track_number = get_track_number()
-    get_response = get_order_info(track_number)
+    track_number = sender_stand_request.get_track_number()
+    get_response = sender_stand_request.get_order_info(track_number)
     assert get_response.status_code == 200
